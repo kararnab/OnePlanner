@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Logo of 1Loom is a Registered Trademark-->
+<svg width="600" height="600" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="headerGrad" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%" stop-color="#FF6E45"/>
+            <stop offset="100%" stop-color="#FF3C6E"/>
+        </linearGradient>
+        <linearGradient id="bodyGrad" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#28E0C2"/>
+            <stop offset="100%" stop-color="#12C6D9"/>
+        </linearGradient>
+        <linearGradient id="camGrad" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#5D4BFF"/>
+            <stop offset="100%" stop-color="#4C55E2"/>
+        </linearGradient>
+        <filter id="cardShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="18" stdDeviation="30" flood-color="#000" flood-opacity="0.12"/>
+        </filter>
+        <style type="text/css">
+            .st0{fill:url(#headerGrad)}
+        </style>
+    </defs>
+    <!-- Background -->
+    <rect width="1200" height="1200" fill="none"/> <!--FBF6F4-->
+    <!-- Calendar card with shadow -->
+    <g transform="translate(200,120)" filter="url(#cardShadow)">
+        <!-- Outer rounded card -->
+        <rect x="0" y="0" rx="90" ry="90" width="700" height="700" fill="url(#bodyGrad)"/>
+        <!-- Header bar -->
+        <path d="M0,160 H700 V80 a80,80 0 0 0 -80,-80 H80 a80,80 0 0 0 -80,80 V160 Z"
+              fill="url(#headerGrad)"
+        />
+        <!-- Ring left (top hanger) -->
+        <g transform="translate(140,-70)">
+            <rect x="-5" y="58" rx="40" ry="56" width="125" height="130" fill="none" stroke="#000000" stroke-width="18" opacity="0.45"/>
+            <rect x="0" y="0" rx="56" ry="56" width="120" height="180" fill="url(#headerGrad)"/>
+        </g>
+        <!-- Ring right (top hanger) -->
+        <g transform="translate(450,-70)">
+            <rect x="-5" y="58" rx="40" ry="56" width="125" height="130" fill="none" stroke="#000000" stroke-width="18" opacity="0.45"/>
+            <rect x="0" y="0" rx="56" ry="56" width="120" height="180" fill="url(#headerGrad)"/>
+        </g>
+        <!-- Small rounded squares (days) - left grid 3x3 -->
+        <g transform="translate(85,220)">
+            <!-- positions (col*spacing, row*spacing) -->
+            <!-- square style -->
+            <style> .day { rx:18; ry:18; width:110; height:110; fill:#FFD94D; } </style>
+            <rect x="0" y="0" rx="18" ry="18" width="110" height="110" fill="#ffffff"/>
+            <rect x="140" y="0" rx="18" ry="18" width="110" height="110" fill="#FFD94D"/>
+            <rect x="280" y="0" rx="18" ry="18" width="110" height="110" fill="#FFD94D"/>
+            <rect x="0" y="140" rx="18" ry="18" width="110" height="110" fill="#ffffff"/>
+            <rect x="140" y="140" rx="18" ry="18" width="110" height="110" fill="#FFD94D"/>
+            <!-- <rect x="280" y="140" rx="18" ry="18" width="110" height="110" fill="#FFD94D"/> -->
+            <rect x="0" y="280" rx="18" ry="18" width="110" height="110" fill="#ffffff"/>
+        </g>
+        <!-- Video camera badge on right -->
+        <g transform="translate(360,360)">
+            <!-- camera triangle (lens) -->
+            <path d=" M240 70 Q240 60 250 60 L290 90 Q300 100 290 110 L250 140 Q240 140 240 130 Z " transform="translate(510,-40) scale(-1,1.5)" fill="url(#camGrad)" opacity="0.9" />
+            <!-- rounded square background for camera -->
+            <rect x="0" y="0" rx="48" ry="48" width="230" height="230" fill="url(#camGrad)"/>
+        </g>
+        <g transform="translate(395, 405) scale(0.4)">
+            <rect x="37.43" class="st0" width="25.74" height="351.48"/>
+            <rect x="353.18" class="st0" width="26.79" height="351.48"/>
+            <rect x="71.58" y="32.57" class="st0" width="63.57" height="26.27"/>
+            <rect x="282.26" y="32.57" class="st0" width="70.93" height="26.27"/>
+            <rect x="282.26" y="55.16" class="st0" width="7.36" height="57.27"/>
+            <rect x="127.8" y="55.16" class="st0" width="7.36" height="57.27"/>
+            <rect x="153.01" y="32.57" class="st0" width="7.88" height="79.86"/>
+            <rect x="178.76" y="32.57" class="st0" width="6.83" height="79.86"/>
+            <rect x="205.03" y="32.57" class="st0" width="6.83" height="79.86"/>
+            <rect x="230.25" y="32.57" class="st0" width="8.41" height="79.86"/>
+            <rect x="255.99" y="32.57" class="st0" width="7.88" height="79.86"/>
+            <rect x="63.18" y="290.53" class="st0" width="71.98" height="26.79"/>
+            <rect x="282.26" y="290.53" class="st0" width="70.93" height="26.79"/>
+            <rect x="127.8" y="260.59" class="st0" width="7.36" height="33.62"/>
+            <rect x="153.01" y="260.59" class="st0" width="7.88" height="56.74"/>
+            <rect x="178.76" y="260.59" class="st0" width="6.83" height="56.74"/>
+            <rect x="205.03" y="260.59" class="st0" width="6.83" height="56.74"/>
+            <rect x="230.25" y="260.59" class="st0" width="8.41" height="56.74"/>
+            <rect x="255.99" y="260.59" class="st0" width="7.88" height="56.74"/>
+            <rect x="282.26" y="260.59" class="st0" width="7.36" height="33.62"/>
+            <path class="st0" d="M30,32.57v26.27H10.04c0,0-22.59-12.08,0-26.27"/>
+            <path class="st0" d="M30,290.79v26.27H10.04c0,0-22.59-12.08,0-26.27"/>
+            <path class="st0" d="M387.11,58.36v-25.3h19.23c0,0,21.76,11.64,0,25.3"/>
+            <path class="st0" d="M387.11,316.58v-25.3h19.23c0,0,21.76,11.64,0,25.3"/>
+            <path class="st0" d="M305.7,152.52c-10.99-17.8-30.74-28.28-51.65-27.4c-15.68,0.96-30.19,8.63-39.82,21.05
+		c0.85,1.38,1.76,2.69,2.53,4.13l10.47,19.68l1.6-3.03c4.96-10.24,14.94-17.11,26.28-18.09c18.7-0.7,34.43,13.89,35.14,32.59
+		s-13.89,34.43-32.59,35.14c-0.85,0.03-1.69,0.03-2.54,0c-11.33-0.98-21.31-7.85-26.26-18.08l-8.39-15.77l-14.21-26.92
+		c-8.92-17.72-26.54-29.41-46.34-30.74c-31.85-1.29-58.71,23.47-60.01,55.32c-1.29,31.85,23.47,58.71,55.32,60.01
+		c1.56,0.06,3.13,0.06,4.69,0c15.68-0.96,30.19-8.63,39.82-21.05c-0.85-1.38-1.76-2.69-2.53-4.13l-10.47-19.73l-1.6,3.03
+		c-4.96,10.24-14.94,17.11-26.28,18.09c-12.37,0.52-24.05-5.73-30.48-16.31c-6.58-10.77-6.58-24.32,0-35.09
+		c6.18-10.15,17.2-16.35,29.09-16.37h1.44c11.33,0.98,21.31,7.85,26.26,18.08l8.34,15.81l14.21,26.92
+		c8.92,17.72,26.54,29.41,46.34,30.74h2.49c31.88-0.03,57.7-25.9,57.66-57.78C314.2,172,311.26,161.58,305.7,152.52z"/>
+        </g>
+    </g>
+    <!-- Brand text -->
+    <g transform="translate(100,1050)">
+        <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="180" fill="url(#headerGrad)"> OnePlanner </text>
+    </g>
+
+    <!-- Brand text as side -->
+    <!-- <g transform="translate(950,550)">
+        <text
+                x="0"
+                y="0"
+                font-family="Arial, Helvetica, sans-serif"
+                font-weight="700"
+                font-size="160"
+                fill="url(#headerGrad)"
+                dominant-baseline="middle"
+        >
+            OnePlanner
+        </text>
+    </g> -->
+</svg>

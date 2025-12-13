@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+:root {
+    /* Core surfaces */
+    --background: #ffffff;
+    --foreground: #171717;
+
+    /* UI tokens */
+    --color-muted: #6b7280;      /* gray-500 */
+    --color-border: #e5e7eb;     /* gray-200 */
+
+    /* Primary / Highlight */
+    --color-primary: #2563eb;              /* blue-600 */
+    --color-primary-foreground: #ffffff;
+    --color-primary-soft: rgba(37, 99, 235, 0.12);
+}
+
+/* ================================
+   Dark Theme (Manual via data-theme)
+   ================================ */
+[data-theme="dark"] {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+
+    --color-muted: #94a3b8;     /* slate-400 */
+    --color-border: #1f2937;    /* gray-800 */
+
+    --color-primary: #60a5fa;   /* blue-400 */
+    --color-primary-foreground: #020617;
+    --color-primary-soft: rgba(96, 165, 250, 0.22);
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+}
+
+/* ================================
+   Fallback Auto Dark (only if
+   user has NOT selected a theme)
+   ================================ */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+
+        --color-muted: #94a3b8;
+        --color-border: #1f2937;
+
+        --color-primary: #60a5fa;
+        --color-primary-foreground: #020617;
+        --color-primary-soft: rgba(96, 165, 250, 0.22);
+    }
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background 0.2s ease, color 0.2s ease;
+}

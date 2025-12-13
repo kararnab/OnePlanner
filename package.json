@@ -1,0 +1,63 @@
+{
+  "name": "one_conference",
+  "version": "0.1.0",
+  "description": "Frontend for Video Conferencing App - OnePlanner",
+  "keywords": [
+    "Meet",
+    "Video Conference",
+    "WebRTC",
+    "NextJS"
+  ],
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "start": "next start",
+    "static:start": "npx serve@latest out",
+    "gen:i18n": "node scripts/generate-i18n-types.mjs",
+    "scan:sonar": "npx sonarqube-scanner",
+    "sonar:server": "docker run -d --name sonarqube -p 9000:9000 sonarqube:lts",
+    "lint": "eslint",
+    "analyze": "cross-env ANALYZE=true next build --webpack",
+    "lighthouse": "lighthouse http://localhost:3000 --perf --view"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.20",
+    "framer-motion": "^12.23.26",
+    "i18next": "^25.7.2",
+    "lucide-react": "^0.561.0",
+    "next": "16.0.10",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-i18next": "^16.5.0",
+    "uuid": "^13.0.0",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^16.0.10",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.10.30",
+    "cross-env": "^10.1.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.10",
+    "lighthouse": "^12.8.2",
+    "sonarqube-scanner": "^4.3.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 120",
+      "edge >= 120",
+      "firefox >= 120",
+      "safari >= 16"
+    ],
+    "development": [
+      "last 2 Chrome version"
+    ]
+  }
+}

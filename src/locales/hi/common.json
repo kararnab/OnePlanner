@@ -1,0 +1,23 @@
+{
+  "appName": "One Planner",
+  "email": "ईमेल",
+  "password": "पासवर्ड",
+  "login": "साइन इन",
+  "logout": "लॉग आउट",
+  "greeting": "सुप्रभात, {{name}}!",
+  "userFallback": "उपयोगकर्ता",
+
+  "meetingCode": "मीटिंग कोड",
+  "joinMeeting": "मीटिंग में शामिल हों",
+
+  "welcomeBack": "वापसी पर स्वागत है",
+  "signInSubtitle": "अपने डैशबोर्ड पर जारी रखने के लिए साइन इन करें।",
+  "forgotPassword": "पासवर्ड भूल गए?",
+  "useDemoAccount": "डेमो खाते का उपयोग करें",
+  "tagline": "मीटिंग प्लान करें। कहीं भी मिलें।",
+  "taglineSubtitle": "बिना बैकएंड के स्टैटिक-फर्स्ट वीडियो कॉन्फ्रेंसिंग।",
+  "showPassword": "पासवर्ड दिखाएँ",
+  "hidePassword": "पासवर्ड छिपाएँ",
+  "signingIn": "साइन इन हो रहा है…",
+  "invalidCredentials": "अमान्य ईमेल या पासवर्ड"
+}

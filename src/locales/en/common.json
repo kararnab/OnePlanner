@@ -1,0 +1,23 @@
+{
+  "appName": "One Planner",
+  "email": "Email Id",
+  "password": "Password",
+  "login": "Sign in",
+  "logout": "Logout",
+  "greeting": "Good morning, {{name}}!",
+  "userFallback": "User",
+
+  "meetingCode": "Meeting code",
+  "joinMeeting": "Join Meeting",
+
+  "welcomeBack": "Welcome back",
+  "signInSubtitle": "Sign in to continue to your dashboard.",
+  "forgotPassword": "Forgot password?",
+  "useDemoAccount": "Use demo account",
+  "tagline": "Plan meetings. Meet anywhere.",
+  "taglineSubtitle": "Video conferencing made easy.",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "signingIn": "Signing in…",
+  "invalidCredentials": "Invalid email or password"
+}
