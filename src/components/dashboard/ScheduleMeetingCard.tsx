@@ -1,37 +1,22 @@
 "use client";
 
 import { Calendar } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ScheduleMeetingCard() {
+    const router = useRouter();
     return (
-        <div
-            className="rounded-2xl shadow-sm p-5 flex flex-col gap-4 border"
-            style={{
-                background: "var(--color-background)",
-                color: "var(--color-foreground)",
-                borderColor: "var(--color-border)",
-            }}
-        >
+        <div className="op-card p-5 flex flex-col gap-4">
             <div className="flex items-center gap-3">
-                <div className="p-2 rounded-full bg-blue-500/15">
-                    <Calendar size={20} className="text-blue-600" />
+                <div className="op-icon-bubble">
+                    <Calendar size={20} />
                 </div>
-
                 <div>
-                    <h3 className="font-semibold">Schedule a meeting</h3>
-                    <p className="text-sm opacity-70">
-                        Create a meeting for a future time
-                    </p>
+                    <h3 className="op-card-title">Schedule a meeting</h3>
+                    <p className="op-card-sub">Create a meeting for a future time</p>
                 </div>
             </div>
-
-            <button
-                className="
-          w-full py-2.5 rounded-lg
-          bg-blue-600 text-white font-medium
-          hover:bg-blue-700 transition
-        "
-            >
+            <button className="op-cta" onClick={() => router.push("/schedule")}>
                 Schedule
             </button>
         </div>
