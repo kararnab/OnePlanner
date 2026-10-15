@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>1Loom Connect</title>
+    <!-- Preconnect to CDN (optional) -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- Font Awesome (you can replace with local SVGs later) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="" crossorigin="anonymous">
+
+    <link rel="preload" href="style.css" as="style" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="app.js"></script>
+</head>
+<body>
+<main>
+    <!-- Landing Page -->
+    <section class="page active" id="landingPage">
+        <h1>Enter Room</h1>
+        <input type="text" id="roomInput" placeholder="Room name..." aria-label="Enter room name" />
+        <button type="button" onclick="goToPreview()">Continue</button>
+    </section>
+
+    <!-- Preview Page -->
+    <section class="page" id="previewPage">
+        <div class="preview-container">
+
+            <!-- Left: Video Section with Overlaid Controls -->
+            <div class="video-section">
+                <div class="video-wrapper">
+                    <video id="previewVideo" autoplay muted playsinline></video>
+
+                    <!-- Overlaid Audio/Video Controls -->
+                    <div class="video-controls" role="group" aria-label="preview controls">
+                        <button type="button" onclick="toggleAudio()" id="preview-audio-btn" title="Toggle Audio"><i class="fas fa-microphone"></i></button>
+                        <button type="button" onclick="toggleVideo()" id="preview-video-btn" title="Toggle Video"><i class="fas fa-video"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Join Info Panel -->
+            <aside class="info-panel" aria-labelledby="previewRoomLabel">
+                <h2 id="previewRoomLabel">Room</h2>
+                <p class="participants">
+                    <img src="https://cdn-icons-png.flaticon.com/128/1814/1814291.png" alt="participant avatar" />
+                    <img src="https://cdn-icons-png.flaticon.com/128/1814/1814295.png" alt="participant avatar" />
+                    <img src="https://cdn-icons-png.flaticon.com/128/1814/1814296.png" alt="participant avatar" />
+                    <span>+5</span>
+                </p>
+                <p class="names">Lena Thomlin, Ethan Smith, Ali Smith and 8 more are in this call</p>
+
+                <button class="join-button" onclick="joinRoom()">
+                    <i class="fas fa-video"></i>
+                    <span class="text">Join Now</span>
+                </button>
+
+                <button class="alt-join">Other ways to join <i class="fas fa-caret-down"></i></button>
+
+                <p class="hint">Calendar shows you joining <label><input type="checkbox" checked /> Virtually</label></p>
+                <a href="#" class="companion-link">Use Companion mode in a room instead</a>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Call Page -->
+    <section class="page" id="callPage">
+        <div class="header-bar">
+            <span id="callRoomLabel">Room: </span>
+            <div id="participantCount" class="participants">Connecting...</div>
+        </div>
+
+        <div class="video-grid" id="videoGrid">
+            <!-- 📹 Local Video
+            <div class="video-tile">
+              <video id="local" autoplay muted playsinline></video>
+              <div class="name-label">You</div>
+            </div> -->
+
+            <!-- 📹 Remote Video
+            <div class="video-tile">
+              <video id="remote" autoplay playsinline poster="placeholder.gif"></video>
+              <div class="name-label">Remote</div>
+            </div> -->
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="controls" role="toolbar" aria-label="call controls">
+            <button id="audio-btn" onclick="toggleAudio()" aria-pressed="true" title="Toggle Audio"><i class="fas fa-microphone"></i></button>
+            <button id="video-btn" onclick="toggleVideo()" aria-pressed="true" title="Toggle Video"><i class="fas fa-video"></i></button>
+            <button class="end" onclick="endCall()" title="End Call">❌</button>
+        </div>
+
+        <!-- Call Status -->
+        <div id="status" class="status-message">Status: Ready</div>
+    </section>
+</main>
+</body>
+</html>

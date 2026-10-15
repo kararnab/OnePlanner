@@ -11,59 +11,25 @@ import InsightsCard from "@/components/dashboard/InsightsCard";
 import AgendaCard from "@/components/dashboard/AgendaCard";
 
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState, useCallback } from "react";
-import { DashboardResponse, isApiError } from "@/lib/api/api.types";
-import api from "@/lib/api/api";
+import { DashboardResponse } from "@/lib/api/api.types";
+import { useApiGet } from "@/lib/hooks/useApiGet";
 
 export default function DashboardClient() {
     const user = useUserStore((s) => s.user);
     const router = useRouter();
 
-    const [data, setData] = useState<DashboardResponse | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [errorMsg, setErrorMsg] = useState("");
+    const { data, loading, error, errorStatus, retry } = useApiGet<DashboardResponse>("/dashboard");
 
-    // ✅ Centralized Fetch Function (Reusable by Cards)
-    const fetchDashboard = useCallback(async () => {
-        setLoading(true);
-        setErrorMsg("");
-
-        try {
-            const res = await api.get<DashboardResponse>("/dashboard");
-            setData(res.data);
-
-        } catch (err: unknown) {
-            if (isApiError(err)) {
-                if (err.status === 401) {
-                    setErrorMsg("Session expired. Please login again.");
-                } else {
-                    setErrorMsg(err.message);
-                }
-            } else {
-                setErrorMsg("Unexpected error");
-            }
-        } finally {
-            setLoading(false);
-            //setErrorMsg("ok, testing")
-        }
-    }, []);
-
-    // ✅ Initial Fetch
-    useEffect(() => {
-        fetchDashboard();
-    }, [fetchDashboard]);
-
-    // ✅ While checking session → don't render Dashboard
+    // While checking session → don't render Dashboard
     if (!user) return null;
 
     function joinOrCreateMeeting(roomId?: string) {
         const id = roomId || uuidv4();
-        if (roomId) {
-            router.push(`/meeting?roomId=${id}`);
-        } else {
-            router.replace(`/meeting?roomId=${id}`);
-        }
+        // Route through the pre-join preview screen instead of the call directly.
+        router.push(`/meeting/preview?roomId=${id}`);
     }
+
+    const displayError = errorStatus === 401 ? "Session expired. Please login again." : error;
 
     return (
         <div
@@ -73,52 +39,35 @@ export default function DashboardClient() {
                 color: "var(--color-foreground)",
             }}
         >
-            {/* ✅ Agenda spans 2 columns */}
+            {/* Agenda spans 2 columns */}
             <div className="lg:col-span-2 order-1">
                 <AgendaCard
                     user={user}
                     isLoading={loading}
                     agenda={data?.agenda.data}
-                    error={errorMsg}
-                    onRefresh={fetchDashboard}     // ✅ refresh hook
+                    error={displayError}
+                    onRefresh={retry}
                 />
             </div>
 
-            {/* ✅ Action Cards */}
+            {/* Action Cards */}
             <div className="flex flex-col gap-4 order-2">
-                <DashboardCard
-                    onStartMeeting={joinOrCreateMeeting}
-                    //onRefresh={fetchDashboard}     // ✅ refresh hook
-                />
-
-                <JoinMeetingForm
-                    onJoinMeeting={joinOrCreateMeeting}
-                    //onRefresh={fetchDashboard}     // ✅ optional
-                />
-
-                <ScheduleMeetingCard
-                    //onRefresh={fetchDashboard}     // ✅ optional
-                />
+                <DashboardCard onStartMeeting={joinOrCreateMeeting} />
+                <JoinMeetingForm onJoinMeeting={joinOrCreateMeeting} />
+                <ScheduleMeetingCard />
             </div>
 
-            {/* ✅ Bottom Row */}
+            {/* Bottom Row */}
             <div className="order-3">
                 <CalendarCard />
             </div>
 
             <div className="order-4">
-                <InvitationCard
-                    invitations={data?.invitation.data}
-                    isLoading={loading}
-                    // onRefresh={fetchDashboard}     // ✅ refresh hook
-                />
+                <InvitationCard invitations={data?.invitation.data} isLoading={loading} />
             </div>
 
             <div className="order-5">
-                <InsightsCard
-                    //isLoading={loading}
-                    //onRefresh={fetchDashboard}
-                />
+                <InsightsCard />
             </div>
         </div>
     );

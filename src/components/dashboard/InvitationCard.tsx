@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Avatar from "@/components/ui/Avatar";
 
 export type InvitationItem = {
     id: number;
@@ -19,27 +19,14 @@ export default function InvitationCard({
                                            isLoading = false,
                                        }: InvitationCardProps) {
     return (
-        <div
-            className="rounded-2xl shadow-sm p-6 flex flex-col border"
-            style={{
-                background: "var(--color-background)",
-                color: "var(--color-foreground)",
-                borderColor: "var(--color-border)",
-            }}
-        >
-            <h3 className="font-semibold mb-4 shrink-0">Invitations</h3>
+        <div className="op-card p-6 flex flex-col">
+            <h3 className="op-card-title" style={{ marginBottom: 16 }}>
+                Invitations
+            </h3>
 
-            {/* Scroll area */}
             <div className="space-y-4 overflow-y-auto max-h-72 pr-2 scrollbar-thin">
-                {/* Loading */}
                 {isLoading && <InvitationSkeleton />}
-
-                {/* Empty */}
-                {!isLoading && invitations.length === 0 && (
-                    <EmptyInvitationState />
-                )}
-
-                {/* Data */}
+                {!isLoading && invitations.length === 0 && <EmptyInvitationState />}
                 {!isLoading &&
                     invitations.map((item) => (
                         <InvitationRow key={item.id} item={item} />
@@ -53,19 +40,23 @@ function InvitationRow({ item }: { item: InvitationItem }) {
     return (
         <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-                <Image
-                    src={item.avatar}
-                    alt={item.name}
-                    width={24}
-                    height={24}
-                    className="rounded-full object-cover"
-                    unoptimized
-                />
+                <Avatar name={item.name} size={32} />
 
                 <div className="min-w-0">
-                    <p className="font-medium truncate">{item.name}</p>
-                    <p className="text-sm opacity-70 truncate">
-                        invited you to <strong>{item.title}</strong>
+                    <p
+                        className="truncate"
+                        style={{ fontWeight: 500, margin: 0, fontSize: 14, color: "var(--fg-1)" }}
+                    >
+                        {item.name}
+                    </p>
+                    <p
+                        className="truncate op-fg-2"
+                        style={{ fontSize: 13, margin: "2px 0 0" }}
+                    >
+                        invited you to{" "}
+                        <strong style={{ color: "var(--fg-1)", fontWeight: 600 }}>
+                            {item.title}
+                        </strong>
                     </p>
                 </div>
             </div>
@@ -73,13 +64,8 @@ function InvitationRow({ item }: { item: InvitationItem }) {
             <button
                 type="button"
                 aria-label={`RSVP to ${item.title}`}
-                className="
-          px-4 py-1.5 text-sm rounded-md shrink-0
-          bg-blue-600 text-white
-          hover:bg-blue-700 transition
-          focus-visible:outline-none
-          focus-visible:ring-2 focus-visible:ring-blue-400/40
-        "
+                className="op-cta"
+                style={{ width: "auto", padding: "6px 14px", fontSize: 12.5, borderRadius: 6, flexShrink: 0 }}
             >
                 RSVP
             </button>
@@ -87,12 +73,15 @@ function InvitationRow({ item }: { item: InvitationItem }) {
     );
 }
 
-
 function EmptyInvitationState() {
     return (
-        <div className="flex flex-col items-center justify-center py-10 text-center opacity-75">
-            <p className="text-sm font-medium">No new invitations</p>
-            <p className="text-xs mt-1">You&#39;re all caught up 🎉</p>
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+            <p className="op-fg-2" style={{ fontSize: 14, fontWeight: 500 }}>
+                No new invitations
+            </p>
+            <p className="op-muted" style={{ fontSize: 12, marginTop: 4 }}>
+                You&#39;re all caught up 🎉
+            </p>
         </div>
     );
 }
@@ -106,18 +95,15 @@ function InvitationSkeleton() {
                     className="flex items-center justify-between gap-3 animate-pulse"
                 >
                     <div className="flex items-center gap-3 flex-1">
-                        <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700" />
-
+                        <div className="h-10 w-10 rounded-full" style={{ background: "var(--surface-2)" }} />
                         <div className="flex-1 space-y-2">
-                            <div className="h-4 w-2/3 rounded bg-gray-200 dark:bg-gray-700" />
-                            <div className="h-3 w-1/2 rounded bg-gray-200 dark:bg-gray-700" />
+                            <div className="h-4 w-2/3 rounded" style={{ background: "var(--surface-2)" }} />
+                            <div className="h-3 w-1/2 rounded" style={{ background: "var(--surface-2)" }} />
                         </div>
                     </div>
-
-                    <div className="h-8 w-16 rounded bg-gray-200 dark:bg-gray-700" />
+                    <div className="h-8 w-16 rounded" style={{ background: "var(--surface-2)" }} />
                 </div>
             ))}
         </>
     );
 }
-

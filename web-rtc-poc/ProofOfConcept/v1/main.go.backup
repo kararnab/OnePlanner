@@ -1,0 +1,15 @@
+package main
+
+import (
+	"log"
+	"net/http"
+	"webrtc/handlers"
+)
+
+func main() {
+	http.HandleFunc("/ws", handlers.HandleWebSocket)
+	http.Handle("/", http.FileServer(http.Dir("static"))) // Serve HTML
+
+	log.Println("Server started at http://0.0.0.0:8080 (accessible via LAN IPs)")
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}

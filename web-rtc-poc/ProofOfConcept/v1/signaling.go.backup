@@ -1,0 +1,119 @@
+package handlers
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"sync"
+
+	"github.com/gorilla/websocket"
+)
+
+type Message struct {
+	Type string `json:"type"`
+	Data string `json:"data"`
+}
+
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		// TODO: In production, restrict by origin or session
+		return true
+	},
+}
+
+var (
+	peers   = make([]*websocket.Conn, 0, 2)
+	peersMu sync.Mutex
+)
+
+func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println("WebSocket upgrade failed:", err)
+		return
+	}
+	defer conn.Close()
+
+	peersMu.Lock()
+	if len(peers) >= 2 {
+		peersMu.Unlock()
+		log.Println("Connection refused: maximum peers reached")
+		conn.WriteJSON(Message{Type: "error", Data: "Room full. Only 2 peers allowed."})
+		return
+	}
+	peers = append(peers, conn)
+	peerID := len(peers)
+	peersMu.Unlock()
+
+	log.Printf("Peer #%d connected", peerID)
+
+	err = conn.WriteJSON(Message{
+		Type: "id",
+		Data: fmt.Sprintf("%d", peerID),
+	})
+	if err != nil {
+		log.Println("Failed to send ID:", err)
+		removePeer(conn)
+		return
+	}
+
+	// Notify both peers when two are connected
+	sendReadyIfBothConnected()
+
+	for {
+		var msg Message
+		err := conn.ReadJSON(&msg)
+		if err != nil {
+			log.Printf("Peer #%d disconnected or error: %v", peerID, err)
+			removePeer(conn)
+			break
+		}
+
+		log.Printf("Relaying %s from one peer to the other", msg.Type)
+		relayToOthers(conn, msg)
+	}
+}
+
+func sendReadyIfBothConnected() {
+	peersMu.Lock()
+	defer peersMu.Unlock()
+	if len(peers) == 2 {
+		log.Println("Both peers connected, sending 'ready'")
+		for _, p := range peers {
+			err := p.WriteJSON(Message{Type: "ready", Data: ""})
+			if err != nil {
+				log.Println("Failed to send 'ready':", err)
+			}
+		}
+	}
+}
+
+func relayToOthers(sender *websocket.Conn, msg Message) {
+	peersMu.Lock()
+	targets := make([]*websocket.Conn, 0, len(peers))
+	for _, p := range peers {
+		if p != sender {
+			targets = append(targets, p)
+		}
+	}
+	peersMu.Unlock()
+
+	for _, p := range targets {
+		if err := p.WriteJSON(msg); err != nil {
+			log.Println("Failed to relay message:", err)
+		}
+	}
+}
+
+func removePeer(conn *websocket.Conn) {
+	peersMu.Lock()
+	defer peersMu.Unlock()
+
+	for i, p := range peers {
+		if p == conn {
+			peers = append(peers[:i], peers[i+1:]...)
+			break
+		}
+	}
+	log.Printf("Peer removed. Remaining peers: %d", len(peers))
+}

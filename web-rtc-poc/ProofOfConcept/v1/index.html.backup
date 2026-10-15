@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>1:1 WebRTC Video Call POC</title>
+  <style>
+    video {
+      width: 45%;
+      border: 1px solid #444;
+      margin: 10px;
+    }
+    #status {
+      color: red;
+      margin-top: 1em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Local Video</h2>
+  <video id="local" autoplay muted playsinline></video>
+  <h2>Remote Video</h2>
+  <video id="remote" autoplay playsinline></video>
+
+  <div id="status"></div>
+
+  <script>
+    const localVideo = document.getElementById("local");
+    const remoteVideo = document.getElementById("remote");
+    const statusDiv = document.getElementById("status");
+
+    let localStream;
+    let pc;
+    let ws;
+    let peerId;
+    let isCaller;
+    let streamReady = false;
+    let signalingReady = false;
+    let readyReceived = false;
+
+    async function start() {
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        localVideo.srcObject = localStream;
+        streamReady = true;
+        maybeStartOffer();
+      } catch (err) {
+        handleError(err);
+        return;
+      }
+
+      pc = new RTCPeerConnection({
+        iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+      });
+
+      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+
+      pc.ontrack = event => {
+        if (remoteVideo.srcObject !== event.streams[0]) {
+          remoteVideo.srcObject = event.streams[0];
+        }
+      };
+
+      pc.onicecandidate = event => {
+        if (event.candidate) {
+          sendMessage("candidate", JSON.stringify(event.candidate));
+        }
+      };
+
+      //ws = new WebSocket(`ws://${location.host}/ws`);
+      ws = new WebSocket(`wss://${location.host}/ws`);
+
+      ws.onopen = () => {
+        statusDiv.innerText = "WebSocket connected. Waiting for peer...";
+      };
+
+      ws.onmessage = async event => {
+        const msg = JSON.parse(event.data);
+        switch (msg.type) {
+          case "id":
+            peerId = parseInt(msg.data);
+            isCaller = peerId === 1;
+            signalingReady = true;
+            statusDiv.innerText = `You are peer #${peerId}. ${isCaller ? "You call first." : "Waiting for offer..."}`;
+            maybeStartOffer();
+            break;
+
+          case "ready":
+            readyReceived = true;
+            maybeStartOffer();
+            break;
+
+          case "offer":
+            console.log("Received offer:", msg.data);
+            await pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(msg.data)));
+            const answer = await pc.createAnswer();
+            await pc.setLocalDescription(answer);
+            sendMessage("answer", JSON.stringify(pc.localDescription));
+            statusDiv.innerText = "Answer sent.";
+            break;
+
+          case "answer":
+            await pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(msg.data)));
+            statusDiv.innerText = "Answer received. Connection established.";
+            break;
+
+          case "candidate":
+            try {
+              await pc.addIceCandidate(new RTCIceCandidate(JSON.parse(msg.data)));
+            } catch (e) {
+              console.warn("ICE candidate add failed:", e);
+            }
+            break;
+
+          default:
+            console.warn("Unknown message:", msg);
+        }
+      };
+
+      ws.onclose = () => {
+        statusDiv.innerText = "WebSocket connection closed.";
+      };
+
+      ws.onerror = e => {
+        statusDiv.innerText = "WebSocket error occurred.";
+        console.error("WebSocket error:", e);
+      };
+    }
+
+    function sendMessage(type, data) {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type, data }));
+      }
+    }
+
+    async function createAndSendOffer() {
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      sendMessage("offer", JSON.stringify(pc.localDescription));
+      statusDiv.innerText = "Offer sent.";
+    }
+
+    async function maybeStartOffer() {
+      // Only start offer if:
+      // - local media is ready
+      // - websocket assigned peerId and ready
+      // - this is caller (peer #1)
+      // - and both peers are connected (readyReceived)
+      if (streamReady && signalingReady && isCaller && readyReceived) {
+        await createAndSendOffer();
+      }
+    }
+
+    function handleError(err) {
+      let message = "";
+      switch (err.name) {
+        case "NotAllowedError":
+          message = "Permissions denied. Please allow camera/mic access.";
+          break;
+        case "NotFoundError":
+          message = "No camera or microphone found.";
+          break;
+        case "NotReadableError":
+          message = "Camera/mic is busy.";
+          break;
+        case "OverconstrainedError":
+          message = "Requested constraints not supported.";
+          break;
+        default:
+          message = `Error: ${err.message}`;
+      }
+      statusDiv.innerText = message;
+      alert(message);
+      console.error(err);
+    }
+
+    start();
+  </script>
+</body>
+</html>

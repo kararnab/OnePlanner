@@ -4,15 +4,42 @@
     /* Core surfaces */
     --background: #ffffff;
     --foreground: #171717;
+    --surface: #ffffff;
+    --surface-2: #f9fafb;
 
-    /* UI tokens */
-    --color-muted: #6b7280;      /* gray-500 */
-    --color-border: #e5e7eb;     /* gray-200 */
+    /* Text */
+    --fg-1: #171717;
+    --fg-2: #4b5563;
+    --fg-3: #6b7280;
+    --fg-4: #9ca3af;
+    --color-muted: #6b7280;
+
+    /* Borders */
+    --color-border: #e5e7eb;
+    --color-border-strong: #d1d5db;
 
     /* Primary / Highlight */
     --color-primary: #2563eb;              /* blue-600 */
+    --color-primary-hover: #1d4ed8;        /* blue-700 */
+    --color-primary-active: #1e40af;       /* blue-800 */
     --color-primary-foreground: #ffffff;
     --color-primary-soft: rgba(37, 99, 235, 0.12);
+    --color-primary-ring: rgba(37, 99, 235, 0.30);
+
+    /* Brand gradients */
+    --brand-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #6d28d9 100%);
+    --avatar-gradient: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+
+    /* Semantic */
+    --color-danger: #ea4335;
+    --color-danger-hover: #d93025;
+    --color-danger-soft: rgba(234, 67, 53, 0.10);
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+
+    /* Elevation */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-primary-glow: 0 10px 25px -10px rgba(37, 99, 235, 0.45);
 }
 
 /* ================================
@@ -21,13 +48,26 @@
 [data-theme="dark"] {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --surface: #0a0a0a;
+    --surface-2: #111827;
 
-    --color-muted: #94a3b8;     /* slate-400 */
-    --color-border: #1f2937;    /* gray-800 */
+    --fg-1: #ededed;
+    --fg-2: #cbd5e1;
+    --fg-3: #94a3b8;
+    --fg-4: #64748b;
+    --color-muted: #94a3b8;
 
-    --color-primary: #60a5fa;   /* blue-400 */
+    --color-border: #1f2937;
+    --color-border-strong: #374151;
+
+    --color-primary: #60a5fa;
+    --color-primary-hover: #93c5fd;
+    --color-primary-active: #bfdbfe;
     --color-primary-foreground: #020617;
     --color-primary-soft: rgba(96, 165, 250, 0.22);
+    --color-primary-ring: rgba(96, 165, 250, 0.35);
+
+    --color-danger-soft: rgba(234, 67, 53, 0.18);
 }
 
 @theme inline {
@@ -45,13 +85,25 @@
     :root:not([data-theme]) {
         --background: #0a0a0a;
         --foreground: #ededed;
+        --surface: #0a0a0a;
+        --surface-2: #111827;
 
+        --fg-1: #ededed;
+        --fg-2: #cbd5e1;
+        --fg-3: #94a3b8;
+        --fg-4: #64748b;
         --color-muted: #94a3b8;
+
         --color-border: #1f2937;
+        --color-border-strong: #374151;
 
         --color-primary: #60a5fa;
+        --color-primary-hover: #93c5fd;
         --color-primary-foreground: #020617;
         --color-primary-soft: rgba(96, 165, 250, 0.22);
+        --color-primary-ring: rgba(96, 165, 250, 0.35);
+
+        --color-danger-soft: rgba(234, 67, 53, 0.18);
     }
 }
 
@@ -61,3 +113,95 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     transition: background 0.2s ease, color 0.2s ease;
 }
+
+/* Numeric — tabular figures for counters, time slots, currency */
+.numeric {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Animations used across the flow screens */
+@keyframes op-spin {
+    to { transform: rotate(360deg); }
+}
+@keyframes op-fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.op-fade-up {
+    animation: op-fade-up 0.32s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Schedule modal — date / start / duration row stacks on small viewports */
+.op-schedule-row { grid-template-columns: 1fr !important; }
+@media (min-width: 540px) {
+    .op-schedule-row { grid-template-columns: 1.2fr 1fr 1fr !important; }
+}
+
+/* Booking page — expert hero + picker */
+.op-booking-grid { display: grid; gap: 24px; grid-template-columns: 1fr; }
+@media (min-width: 900px) {
+    .op-booking-grid { grid-template-columns: 320px 1fr; align-items: start; }
+}
+
+/* Client profile — main + side rail */
+.op-client-grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 1100px) {
+    .op-client-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+}
+
+/* Settings — main + right rail */
+.op-settings-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 1100px) {
+    .op-settings-grid { grid-template-columns: minmax(0, 1fr) 300px; align-items: start; }
+}
+
+/* Meeting preview — self-view + join panel */
+.op-preview-grid { display: grid; gap: 28px; grid-template-columns: 1fr; }
+@media (min-width: 980px) {
+    .op-preview-grid { grid-template-columns: minmax(0, 1.4fr) 380px; align-items: center; }
+}
+
+/* --------------------------------------------------------
+   Composite utilities — replace repeated style={{...}} blocks.
+   -------------------------------------------------------- */
+
+/* Card chrome: surface + border + radius + shadow. */
+.op-card {
+    background: var(--surface);
+    color: var(--fg-1);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Primary CTA used by the dashboard action cards. */
+.op-cta {
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 8px;
+    border: 0;
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+.op-cta:hover { background: var(--color-primary-hover); }
+.op-cta:disabled { opacity: 0.6; cursor: not-allowed; background: var(--color-primary); }
+
+/* Rounded primary-soft icon bubble — the leading icon on action cards. */
+.op-icon-bubble {
+    padding: 8px;
+    border-radius: 9999px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    display: flex;
+}
+
+/* Typography shortcuts */
+.op-card-title { font-weight: 600; font-size: 16px; color: var(--fg-1); margin: 0; }
+.op-card-sub   { font-size: 13.5px; color: var(--fg-2); margin: 2px 0 0; }
+.op-muted      { color: var(--fg-3); }
+.op-fg-2       { color: var(--fg-2); }

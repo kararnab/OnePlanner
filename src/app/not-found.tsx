@@ -1,62 +1,110 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { VideoOff } from "lucide-react";
+import { ArrowLeft, House } from "lucide-react";
+import BrandLogo from "@/components/ui/BrandLogo";
+import { FButton, ThemeToggle } from "@/components/flows/Primitives";
 
 export default function NotFound() {
+    const router = useRouter();
     return (
         <div
-            className="min-h-screen flex items-center justify-center p-6"
             style={{
-                background: "var(--color-background)",
-                color: "var(--color-foreground)",
+                minHeight: "100vh",
+                background: "var(--background)",
+                color: "var(--fg-1)",
+                display: "flex",
+                flexDirection: "column",
             }}
         >
-            <div
-                className="rounded-2xl shadow-sm p-8 flex flex-col gap-6 border max-w-md w-full text-center"
+            <header
                 style={{
-                    background: "var(--color-background)",
-                    color: "var(--color-foreground)",
-                    borderColor: "var(--color-border)",
+                    padding: "14px 24px",
+                    borderBottom: "1px solid var(--color-border)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                 }}
             >
-                {/* Icon */}
-                <div className="mx-auto p-3 rounded-full bg-red-500/15 w-fit">
-                    <VideoOff size={28} className="text-red-600" />
-                </div>
+                <Link href="/" style={{ display: "inline-flex" }}>
+                    <BrandLogo width={70} priority />
+                </Link>
+                <ThemeToggle />
+            </header>
 
-                {/* Title */}
-                <div>
-                    <h1 className="text-5xl font-bold mb-2">404</h1>
-                    <p className="text-sm opacity-70">
-                        This page could not be found.
-                    </p>
-                </div>
-
-                {/* Description */}
-                <p className="text-sm opacity-70 leading-relaxed">
-                    The meeting link may be broken, expired, or you may not have
-                    permission to view this page.
-                </p>
-
-                {/* Actions */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                    <Link
-                        href="/"
-                        className="w-full py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
-                    >
-                        Go to Dashboard
-                    </Link>
-
-                    <Link
-                        href="/"
-                        className="w-full py-2.5 rounded-lg border font-medium transition hover:bg-black/5 dark:hover:bg-white/5"
+            <div
+                style={{
+                    flex: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "40px 24px",
+                }}
+            >
+                <div style={{ maxWidth: 480, textAlign: "center" }}>
+                    <div
                         style={{
-                            borderColor: "var(--color-border)",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: 88,
+                            height: 88,
+                            borderRadius: 9999,
+                            background: "var(--surface-2)",
+                            border: "1px solid var(--color-border)",
+                            marginBottom: 22,
                         }}
                     >
-                        Report a Problem
-                    </Link>
+                        <p
+                            style={{
+                                margin: 0,
+                                fontFamily:
+                                    "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+                                fontSize: 28,
+                                fontWeight: 600,
+                                color: "var(--fg-2)",
+                                letterSpacing: "-0.04em",
+                            }}
+                        >
+                            404
+                        </p>
+                    </div>
+                    <h1
+                        style={{
+                            margin: "0 0 12px",
+                            fontSize: 28,
+                            fontWeight: 600,
+                            letterSpacing: "-0.02em",
+                        }}
+                    >
+                        This page could not be found.
+                    </h1>
+                    <p style={{ margin: 0, color: "var(--fg-2)", fontSize: 14.5, lineHeight: 1.55 }}>
+                        The meeting link may be broken, expired, or you may not have permission to view this page.
+                    </p>
+                    <div
+                        style={{
+                            marginTop: 26,
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: 10,
+                            flexWrap: "wrap",
+                        }}
+                    >
+                        <FButton variant="secondary" leadingIcon={ArrowLeft} onClick={() => router.back()}>
+                            Try again
+                        </FButton>
+                        <Link href="/" style={{ textDecoration: "none" }}>
+                            <FButton leadingIcon={House}>Go to dashboard</FButton>
+                        </Link>
+                    </div>
+                    <p style={{ marginTop: 26, fontSize: 12, color: "var(--fg-3)" }}>
+                        Still stuck? Email{" "}
+                        <a href="mailto:help@oneplanner.app" style={{ color: "var(--color-primary)" }}>
+                            help@oneplanner.app
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

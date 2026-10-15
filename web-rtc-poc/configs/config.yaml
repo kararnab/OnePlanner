@@ -1,0 +1,36 @@
+server:
+  host: "0.0.0.0"
+  port: 8080
+  shutdown_timeout_seconds: 10
+
+signalling:
+  ws_path: "/ws"
+  port: 8080
+  read_timeout_seconds: 30
+  write_timeout_seconds: 10
+  pong_wait_seconds: 60
+
+rtc:
+  provider: "livekit"
+  livekit:
+    url: "http://livekit:7880"
+    api_key: "APIvdxXXBW7AYqF"             # override in production via env / secrets
+    api_secret: "a6RTxidZnXz8wmb5wfOUt8KqyO21ymqSREihVSucfMa"       # override in production via env / secrets
+  ice:
+    use_internal_coturn: true
+    coturn:
+      host: "coturn"
+      port: 3478
+      use_hmac: true
+      static_auth_secret: "s3cr3t"
+    fallback_servers:
+      - urls: ["stun:stun.l.google.com:19302"] # Optional: extra STUN, but not needed
+        enabled: false
+
+cleanup:
+  room_idle_seconds: 600
+  cleanup_interval_seconds: 60
+
+features:
+  enable_turn: true
+  enable_e2ee: false

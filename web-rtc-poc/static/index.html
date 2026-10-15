@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>LiveKit RTC Demo</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+    <h1>Rtc — LiveKit demo</h1>
+
+    <div class="controls">
+        <input id="roomInput" placeholder="room name (e.g. demo-room)" value="demo-room" />
+        <input id="identityInput" placeholder="your name (optional)" />
+        <button id="joinBtn">Join</button>
+        <button id="leaveBtn" class="warn" disabled>Leave</button>
+    </div>
+</header>
+
+<main>
+    <section class="stage" id="stage">
+        <!-- participants (video tiles) appear here -->
+    </section>
+
+    <aside class="sidebar">
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+            <button id="muteBtn">Mute</button>
+            <button id="unmuteCamBtn">Toggle Camera</button>
+            <button id="screenshareBtn">Share Screen</button>
+        </div>
+
+        <div class="small" style="margin-bottom:8px;">Connection log</div>
+        <div class="log" id="log"></div>
+        <div style="height:12px"></div>
+        <div class="small">Notes</div>
+        <ul style="font-size:13px; color:var(--muted)">
+            <li>Backend must provide LiveKit token via WebSocket /ws?room=ROOM</li>
+            <li>For air-gapped: vendor the LiveKit client library locally</li>
+            <li>Use latest Chrome/Edge for best WebRTC support</li>
+        </ul>
+    </aside>
+</main>
+
+<footer>Tip: open console to see debug logs</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

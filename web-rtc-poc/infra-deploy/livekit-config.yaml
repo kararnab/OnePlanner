@@ -1,0 +1,35 @@
+port: 7880
+log_level: info
+
+# API keys
+keys:
+  APIvdxXXBW7AYqF: "a6RTxidZnXz8wmb5wfOUt8KqyO21ymqSREihVSucfMa"
+
+# Redis configuration
+redis:
+  address: "redis:6379"
+
+###############################################
+# RTC / WebRTC Settings
+###############################################
+rtc:
+  tcp_port: 7881
+  # Match your docker-exposed port range
+  port_range_start: 50000
+  port_range_end: 50020
+  # use_external_ip should be set to true for most cloud environments where
+  # the host has a public IP address, but is not exposed to the process.
+  # LiveKit will attempt to use STUN to discover the true IP, and advertise
+  # that IP with its clients
+  use_external_ip: false
+
+turn:
+  enabled: false
+  tls_port: 5349
+  domain: turn.myhost.com
+
+###############################################
+# Bindings — internal interface
+###############################################
+bind_addresses:
+  - "0.0.0.0"
