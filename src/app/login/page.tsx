@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import Logo from "@/../public/brand_logo.svg";
+import BrandLogo from "@/components/ui/BrandLogo";
 import LoginClient from "./LoginClient";
 import { t } from "@/lib/i18n";
 
@@ -27,13 +26,7 @@ export default function LoginPage() {
 
                 <div className="relative z-10 flex items-center gap-3">
                     <div className="bg-white/15 rounded-xl p-2 backdrop-blur ring-1 ring-white/20">
-                        <Image
-                            src={Logo}
-                            alt="OnePlanner"
-                            width={42}
-                            className="select-none"
-                            unoptimized
-                        />
+                        <BrandLogo width={42} priority />
                     </div>
                     <span className="text-lg font-semibold tracking-tight">
                         {t("appName")}
@@ -59,13 +52,7 @@ export default function LoginPage() {
                 <div className="w-full max-w-md space-y-8">
                     {/* Mobile logo */}
                     <div className="lg:hidden flex justify-center">
-                        <Image
-                            src={Logo}
-                            alt="OnePlanner"
-                            width={72}
-                            className="select-none"
-                            unoptimized
-                        />
+                        <BrandLogo width={72} priority />
                     </div>
 
                     <div className="space-y-2 text-center lg:text-left">

@@ -57,7 +57,7 @@ export default function Controls({ roomId }: { roomId: string }) {
                     flex items-center justify-center shadow-lg
                     transition shrink-0
                 "
-                onClick={() => (window.location.href = "/dashboard")}
+                onClick={() => (window.location.href = "/meeting/ended")}
             >
                 <Phone size={24} className="text-white rotate-[135deg]" fill="currentColor" />
             </button>

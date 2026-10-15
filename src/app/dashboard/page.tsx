@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import DashboardClient from "./DashboardClient";
 import {
     Home,
@@ -9,6 +10,7 @@ import {
     Video,
     Users,
     Layers,
+    Settings,
     LogOut,
     Menu,
     X,
@@ -34,8 +36,8 @@ export default function DashboardPage() {
             <div
                 className="flex min-h-screen relative"
                 style={{
-                    background: "var(--color-background)",
-                    color: "var(--color-foreground)",
+                    background: "var(--background)",
+                    color: "var(--fg-1)",
                 }}
             >
                 {/* MOBILE OVERLAY */}
@@ -57,9 +59,9 @@ export default function DashboardPage() {
                         md:translate-x-0
                       `}
                     style={{
-                        background: "var(--color-background)",
-                        color: "var(--color-foreground)",
-                        borderColor: "var(--color-border)",
+                        background: "var(--surface)",
+                        color: "var(--fg-1)",
+                        borderRight: "1px solid var(--color-border)",
                     }}
                 >
                     <div>
@@ -71,10 +73,11 @@ export default function DashboardPage() {
 
                         <nav className="space-y-3">
                             <SidebarItem icon={<Home size={18} />} label="Home" active />
-                            <SidebarItem icon={<Calendar size={18} />} label="Calendar" />
+                            <SidebarItem icon={<Calendar size={18} />} label="Calendar" href="/schedule" />
                             <SidebarItem icon={<Video size={18} />} label="Recording" />
-                            <SidebarItem icon={<Users size={18} />} label="Contacts" />
-                            <SidebarItem icon={<Layers size={18} />} label="Whiteboards" />
+                            <SidebarItem icon={<Users size={18} />} label="Contacts" href="/clients" />
+                            <SidebarItem icon={<Layers size={18} />} label="Whiteboards" href="/whiteboard" />
+                            <SidebarItem icon={<Settings size={18} />} label="Settings" href="/settings" />
                         </nav>
 
                         <div className="mt-auto">
@@ -91,7 +94,14 @@ export default function DashboardPage() {
                 {/* MAIN CONTENT */}
                 <div className="flex-1 flex flex-col w-full">
                     {/* MOBILE MENU BUTTON */}
-                    <div className="md:hidden p-3 border-b flex items-center gap-2">
+                    <div
+                        className="md:hidden p-3 border-b flex items-center gap-2"
+                        style={{
+                            borderColor: "var(--color-border)",
+                            background: "var(--surface)",
+                            color: "var(--fg-1)",
+                        }}
+                    >
                         <Menu className="cursor-pointer" onClick={() => setSidebarOpen(true)} />
                         <span className="font-medium text-sm">Dashboard</span>
                     </div>
@@ -110,26 +120,49 @@ function SidebarItem({
     label,
     active,
     danger,
+    href,
     onClick,
 }: {
     icon: React.ReactNode;
     label: string;
     active?: boolean;
     danger?: boolean;
+    href?: string;
     onClick?: () => void;
 }) {
-    return (
+    const baseColor = danger
+        ? "var(--color-danger)"
+        : active
+            ? "var(--color-primary)"
+            : "var(--fg-1)";
+    const bg = active ? "var(--color-primary-soft)" : "transparent";
+    const hoverBg = danger ? "var(--color-danger-soft)" : "var(--surface-2)";
+    const body = (
         <div
             onClick={onClick}
-            className={`
-        flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer 
-        transition-all text-sm
-        ${active ? "bg-blue-500/10 text-blue-600" : "opacity-90"}
-        ${danger ? "text-red-500 hover:bg-red-500/10" : "hover:bg-black/5"}
-      `}
+            style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "8px 12px",
+                borderRadius: 8,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 500,
+                color: baseColor,
+                background: bg,
+                transition: "background 0.15s",
+            }}
+            onMouseEnter={(e) => {
+                if (!active) e.currentTarget.style.background = hoverBg;
+            }}
+            onMouseLeave={(e) => {
+                if (!active) e.currentTarget.style.background = "transparent";
+            }}
         >
             {icon}
-            <span className="font-medium">{label}</span>
+            <span>{label}</span>
         </div>
     );
+    return href ? <Link href={href}>{body}</Link> : body;
 }
